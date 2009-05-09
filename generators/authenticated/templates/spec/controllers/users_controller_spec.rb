@@ -117,11 +117,11 @@ describe <%= model_controller_class_name %>Controller do
     end
     
     it "should route <%= model_controller_controller_name %>'s 'update' action correctly" do
-      route_for(:controller => '<%= model_controller_controller_name %>', :action => 'update', :id => '1').should == "/<%= model_controller_routing_path %>/1"
+      route_for(:controller => '<%= model_controller_controller_name %>', :action => 'update', :id => '1').should == { :path => "/<%= model_controller_routing_path %>/1", :method => :put }
     end
     
     it "should route <%= model_controller_controller_name %>'s 'destroy' action correctly" do
-      route_for(:controller => '<%= model_controller_controller_name %>', :action => 'destroy', :id => '1').should == "/<%= model_controller_routing_path %>/1"
+      route_for(:controller => '<%= model_controller_controller_name %>', :action => 'destroy', :id => '1').should == { :path => "/<%= model_controller_routing_path %>/1", :method => :delete }
     end
   end
   
