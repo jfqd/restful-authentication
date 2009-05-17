@@ -101,7 +101,7 @@ end
 
 def create_user(user_params={})
   @user_params       ||= user_params
-  post "/<%= table_name %>", :user => user_params
+  post "/<%= table_name %>", :<%= file_name %> => user_params
   @user = <%= class_name %>.find_by_login(user_params['login'])
 end
 
@@ -120,7 +120,7 @@ def log_in_user user_params=nil
   user_params  ||= @user_params
   post "/session", user_params
   @user = <%= class_name %>.find_by_login(user_params['login'])
-  controller.<%= file_name %>
+  controller.current_<%= file_name %>
 end
 
 def log_in_user! *args
