@@ -7,7 +7,7 @@ class <%= model_controller_class_name %>Controller < ApplicationController
   before_filter :find_<%= file_name %>, :only => [:suspend, :unsuspend, :destroy, :purge]
   <% end %>
 
-  # render new.rhtml
+  # render new.html.erb
   def new
     @<%= file_name %> = <%= class_name %>.new
   end

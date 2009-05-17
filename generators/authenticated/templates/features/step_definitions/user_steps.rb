@@ -27,7 +27,7 @@ Given "$actor is logged in" do |_, login|
 end
 
 Given "there is no $user_type user named '$login'" do |_, login|
-  @user = User.find_by_login(login)
+  @user = <%= class_name %>.find_by_login(login)
   @user.destroy! if @user
   @user.should be_nil
 end
@@ -67,8 +67,8 @@ end
 
 Then "$login should be logged in" do |login|
   controller.logged_in?.should be_true
-  controller.current_user.should === @user
-  controller.current_user.login.should == login
+  controller.current_<%= file_name %>.should === @user
+  controller.current_<%= file_name %>.login.should == login
 end
 
 def named_user login
@@ -101,8 +101,8 @@ end
 
 def create_user(user_params={})
   @user_params       ||= user_params
-  post "/users", :user => user_params
-  @user = User.find_by_login(user_params['login'])
+  post "/<%= table_name %>", :user => user_params
+  @user = <%= class_name %>.find_by_login(user_params['login'])
 end
 
 def create_user!(user_type, user_params)
@@ -119,8 +119,8 @@ def log_in_user user_params=nil
   @user_params ||= user_params
   user_params  ||= @user_params
   post "/session", user_params
-  @user = User.find_by_login(user_params['login'])
-  controller.current_user
+  @user = <%= class_name %>.find_by_login(user_params['login'])
+  controller.<%= file_name %>
 end
 
 def log_in_user! *args
