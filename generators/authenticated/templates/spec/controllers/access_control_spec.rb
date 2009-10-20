@@ -42,7 +42,6 @@ ACCESS_CONTROL_IS_LOGIN_REQD = [
   :login_is_required,]
 
 describe AccessControlTestController do
-  fixtures        :<%= table_name %>
   before do
     # is there a better way to do this?
     ActionController::Routing::Routes.add_route '/login_is_required',           :controller => 'access_control_test',   :action => 'login_is_required'
@@ -55,7 +54,7 @@ describe AccessControlTestController do
         describe "requesting #{format.blank? ? 'html' : format}; #{logged_in_status.to_s.humanize} and #{login_reqd_status.to_s.humanize}" do
           before do
             logout_keeping_session!
-            @<%= file_name %> = format.blank? ? login_as(<%= file_name %>_login) : authorize_as(<%= file_name %>_login)
+            @<%= file_name %> = format.blank? ? log_in : authorize
             get login_reqd_status.to_s, :format => format
           end
 

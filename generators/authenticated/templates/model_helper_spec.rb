@@ -82,10 +82,9 @@ describe "<%= model_controller_class_name %>Helper.link_to_signin_with_IP" do
 end
 
 describe "<%= model_controller_class_name %>Helper.link_to_current_<%= file_name %>, When logged in" do
-  fixtures :<%= table_name %>
   include AuthenticatedTestHelper
   before do
-    login_as(:quentin)
+    log_in
   end
 
   it "should link to the given <%= file_name %>" do

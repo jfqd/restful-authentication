@@ -5,7 +5,7 @@ include AuthenticatedTestHelper
 
 describe <%= model_controller_class_name %>Helper do
   before do
-    @<%= file_name %> = mock_<%= file_name %>
+    @<%= file_name %> = <%= class_name %>.make
   end
   
   describe "if_authorized" do 

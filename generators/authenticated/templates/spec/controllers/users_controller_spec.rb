@@ -5,8 +5,6 @@ require File.dirname(__FILE__) + '<%= ('/..'*model_controller_class_nesting_dept
 include AuthenticatedTestHelper
 
 describe <%= model_controller_class_name %>Controller do
-  fixtures :<%= table_name %>
-
   it 'allows signup' do
     lambda do
       create_<%= file_name %>

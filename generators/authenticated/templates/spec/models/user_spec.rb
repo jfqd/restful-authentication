@@ -144,13 +144,13 @@ describe <%= class_name %> do
   end
 
   it 'resets password' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
     <%= class_name %>.authenticate(user.login, 'new password').should == user
   end
 
   it 'does not rehash password' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     user.update_attributes(:login => 'quentin2')
     <%= class_name %>.authenticate('quentin2', user.password).should == user
   end
@@ -160,7 +160,7 @@ describe <%= class_name %> do
   #
 
   it 'authenticates <%= file_name %>' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     <%= class_name %>.authenticate(user.login, user.password).should == user
   end
 
@@ -193,14 +193,14 @@ describe <%= class_name %> do
   #
 
   it 'sets remember token' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     user.remember_me
     user.remember_token.should_not be_nil
     user.remember_token_expires_at.should_not be_nil
   end
 
   it 'unsets remember token' do
-    user = <%= class_name %>.make    
+    <%= file_name %> = <%= class_name %>.make    
     user.remember_me
     user.remember_token.should_not be_nil
     user.forget_me
@@ -208,7 +208,7 @@ describe <%= class_name %> do
   end
 
   it 'remembers me for one week' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     before = 1.week.from_now.utc
     user.remember_me_for 1.week
     after = 1.week.from_now.utc
@@ -218,7 +218,7 @@ describe <%= class_name %> do
   end
 
   it 'remembers me until one week' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     time = 1.week.from_now.utc
     user.remember_me_until time
     user.remember_token.should_not be_nil
@@ -227,7 +227,7 @@ describe <%= class_name %> do
   end
 
   it 'remembers me default two weeks' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     before = 2.weeks.from_now.utc
     user.remember_me
     after = 2.weeks.from_now.utc
@@ -245,19 +245,19 @@ describe <%= class_name %> do
   end
 
   it 'suspends <%= file_name %>' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     user.suspend!
     user.should be_suspended
   end
 
   it 'does not authenticate suspended <%= file_name %>' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     user.suspend!
     <%= class_name %>.authenticate('quentin', 'monkey').should_not == user
   end
 
   it 'deletes <%= file_name %>' do
-    user = <%= class_name %>.make
+    <%= file_name %> = <%= class_name %>.make
     user.deleted_at.should be_nil
     user.delete!
     user.deleted_at.should_not be_nil
