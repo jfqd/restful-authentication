@@ -102,7 +102,6 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
         m.directory File.join('spec/controllers', model_controller_class_path)
         m.directory File.join('spec/models', class_path)
         m.directory File.join('spec/helpers', model_controller_class_path)
-        m.directory File.join('spec/fixtures', class_path)
         m.directory File.join('spec/blueprints', class_path)
         m.directory 'features'
         m.directory File.join('features', 'step_definitions')
@@ -110,7 +109,6 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
         m.directory File.join('test/functional', controller_class_path)
         m.directory File.join('test/functional', model_controller_class_path)
         m.directory File.join('test/unit', class_path)
-        m.directory File.join('test/fixtures', class_path)
       end
 
       m.template 'model.rb',
@@ -170,10 +168,6 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
                     File.join('spec/models',
                               class_path,
                               "#{file_name}_spec.rb")
-        m.template 'spec/fixtures/users.yml',
-                    File.join('spec/fixtures',
-                               class_path,
-                              "#{table_name}.yml")
         m.template 'spec/blueprints/user.rb',
                     File.join('spec/blueprints',
                                class_path,
@@ -213,10 +207,6 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
         if options[:include_activation]
           m.template 'test/mailer_test.rb', File.join('test/unit', class_path, "#{file_name}_mailer_test.rb")
         end
-        m.template 'spec/fixtures/users.yml',
-                    File.join('test/fixtures',
-                              class_path,
-                              "#{table_name}.yml")
       end
 
       m.template 'helper.rb',
@@ -281,6 +271,21 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
         puts "- Install the acts_as_state_machine plugin:"
         puts "    svn export http://elitists.textdriven.com/svn/plugins/acts_as_state_machine/trunk vendor/plugins/acts_as_state_machine"
       end
+      puts
+      puts ("-" * 70)
+      puts
+      puts
+      puts "- Add the following to config/environments/test.rb: "
+      puts %(    require 'machinist/active_record')
+      puts %(    require 'sham')
+      puts %(    require 'faker')
+      puts
+      puts %(    config.after_initialize do)
+      puts %(      Dir["#{RAILS_ROOT}/spec/blueprints/*.rb"].each { |f| require f })
+      puts %(    end)
+      puts
+      puts ("-" * 70)
+      puts
       puts "- Add routes to these resources. In config/routes.rb, insert routes like:"
       puts %(    map.signup '/signup', :controller => '#{model_controller_file_name}', :action => 'new')
       puts %(    map.login  '/login',  :controller => '#{controller_file_name}', :action => 'new')
@@ -318,15 +323,6 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
       puts "Don't forget to comment out the observer line in environment.rb"
       puts "  (This was optional so it may not even be there)"
       puts "  # config.active_record.observers = :#{file_name}_observer"
-      puts
-      puts "Also remember to add the following to config/environments/test.rb: "
-      puts "require 'machinist/active_record'"
-      puts "require 'sham'"
-      puts "require 'faker'"
-      puts
-      puts "config.after_initialize do"
-      puts "  Dir['#{RAILS_ROOT}/spec/blueprints/*.rb'].each { |f| require f }"
-      puts "end"
       puts
       puts ("-" * 70)
       puts
