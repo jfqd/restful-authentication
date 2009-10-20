@@ -4,7 +4,6 @@ class <%= class_name %>Test < ActiveSupport::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead.
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
-  fixtures :<%= table_name %>
 
   def test_should_create_<%= file_name %>
     assert_difference '<%= class_name %>.count' do

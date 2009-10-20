@@ -9,8 +9,6 @@ class <%= model_controller_class_name %>ControllerTest < ActionController::TestC
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :<%= table_name %>
-
   def test_should_allow_signup
     assert_difference '<%= class_name %>.count' do
       create_<%= file_name %>

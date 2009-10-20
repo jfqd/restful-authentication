@@ -6,8 +6,6 @@ require File.dirname(__FILE__) + '<%= ('/..'*model_controller_class_nesting_dept
 include AuthenticatedTestHelper
 
 describe <%= class_name %> do
-  fixtures :<%= table_name %>
-
   describe 'being created' do
     before do
       @<%= file_name %> = nil
@@ -146,13 +144,15 @@ describe <%= class_name %> do
   end
 
   it 'resets password' do
-    <%= table_name %>(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    <%= class_name %>.authenticate('quentin', 'new password').should == <%= table_name %>(:quentin)
+    user = <%= class_name %>.make
+    user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
+    <%= class_name %>.authenticate(user.login, 'new password').should == user
   end
 
   it 'does not rehash password' do
-    <%= table_name %>(:quentin).update_attributes(:login => 'quentin2')
-    <%= class_name %>.authenticate('quentin2', 'monkey').should == <%= table_name %>(:quentin)
+    user = <%= class_name %>.make
+    user.update_attributes(:login => 'quentin2')
+    <%= class_name %>.authenticate('quentin2', user.password).should == user
   end
 
   #
@@ -160,7 +160,8 @@ describe <%= class_name %> do
   #
 
   it 'authenticates <%= file_name %>' do
-    <%= class_name %>.authenticate('quentin', 'monkey').should == <%= table_name %>(:quentin)
+    user = <%= class_name %>.make
+    <%= class_name %>.authenticate(user.login, user.password).should == user
   end
 
   it "doesn't authenticate <%= file_name %> with bad password" do
@@ -192,42 +193,47 @@ describe <%= class_name %> do
   #
 
   it 'sets remember token' do
-    <%= table_name %>(:quentin).remember_me
-    <%= table_name %>(:quentin).remember_token.should_not be_nil
-    <%= table_name %>(:quentin).remember_token_expires_at.should_not be_nil
+    user = <%= class_name %>.make
+    user.remember_me
+    user.remember_token.should_not be_nil
+    user.remember_token_expires_at.should_not be_nil
   end
 
   it 'unsets remember token' do
-    <%= table_name %>(:quentin).remember_me
-    <%= table_name %>(:quentin).remember_token.should_not be_nil
-    <%= table_name %>(:quentin).forget_me
-    <%= table_name %>(:quentin).remember_token.should be_nil
+    user = <%= class_name %>.make    
+    user.remember_me
+    user.remember_token.should_not be_nil
+    user.forget_me
+    user.remember_token.should be_nil
   end
 
   it 'remembers me for one week' do
+    user = <%= class_name %>.make
     before = 1.week.from_now.utc
-    <%= table_name %>(:quentin).remember_me_for 1.week
+    user.remember_me_for 1.week
     after = 1.week.from_now.utc
-    <%= table_name %>(:quentin).remember_token.should_not be_nil
-    <%= table_name %>(:quentin).remember_token_expires_at.should_not be_nil
-    <%= table_name %>(:quentin).remember_token_expires_at.between?(before, after).should be_true
+    user.remember_token.should_not be_nil
+    user.remember_token_expires_at.should_not be_nil
+    user.remember_token_expires_at.between?(before, after).should be_true
   end
 
   it 'remembers me until one week' do
+    user = <%= class_name %>.make
     time = 1.week.from_now.utc
-    <%= table_name %>(:quentin).remember_me_until time
-    <%= table_name %>(:quentin).remember_token.should_not be_nil
-    <%= table_name %>(:quentin).remember_token_expires_at.should_not be_nil
-    <%= table_name %>(:quentin).remember_token_expires_at.should == time
+    user.remember_me_until time
+    user.remember_token.should_not be_nil
+    user.remember_token_expires_at.should_not be_nil
+    user.remember_token_expires_at.should == time
   end
 
   it 'remembers me default two weeks' do
+    user = <%= class_name %>.make
     before = 2.weeks.from_now.utc
-    <%= table_name %>(:quentin).remember_me
+    user.remember_me
     after = 2.weeks.from_now.utc
-    <%= table_name %>(:quentin).remember_token.should_not be_nil
-    <%= table_name %>(:quentin).remember_token_expires_at.should_not be_nil
-    <%= table_name %>(:quentin).remember_token_expires_at.between?(before, after).should be_true
+    user.remember_token.should_not be_nil
+    user.remember_token_expires_at.should_not be_nil
+    user.remember_token_expires_at.between?(before, after).should be_true
   end
 <% if options[:stateful] %>
   it 'registers passive <%= file_name %>' do
@@ -239,27 +245,29 @@ describe <%= class_name %> do
   end
 
   it 'suspends <%= file_name %>' do
-    <%= table_name %>(:quentin).suspend!
-    <%= table_name %>(:quentin).should be_suspended
+    user = <%= class_name %>.make
+    user.suspend!
+    user.should be_suspended
   end
 
   it 'does not authenticate suspended <%= file_name %>' do
-    <%= table_name %>(:quentin).suspend!
-    <%= class_name %>.authenticate('quentin', 'monkey').should_not == <%= table_name %>(:quentin)
+    user = <%= class_name %>.make
+    user.suspend!
+    <%= class_name %>.authenticate('quentin', 'monkey').should_not == user
   end
 
   it 'deletes <%= file_name %>' do
-    <%= table_name %>(:quentin).deleted_at.should be_nil
-    <%= table_name %>(:quentin).delete!
-    <%= table_name %>(:quentin).deleted_at.should_not be_nil
-    <%= table_name %>(:quentin).should be_deleted
+    user = <%= class_name %>.make
+    user.deleted_at.should be_nil
+    user.delete!
+    user.deleted_at.should_not be_nil
+    user.should be_deleted
   end
 
   describe "being unsuspended" do
-    fixtures :<%= table_name %>
 
     before do
-      @<%= file_name %> = <%= table_name %>(:quentin)
+      @<%= file_name %> = <%= class_name %>.make
       @<%= file_name %>.suspend!
     end
 

@@ -9,8 +9,6 @@ class <%= controller_class_name %>ControllerTest < ActionController::TestCase
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :<%= table_name %>
-
   def test_should_login_and_redirect
     post :create, :login => 'quentin', :password => 'monkey'
     assert session[:<%= file_name %>_id]
