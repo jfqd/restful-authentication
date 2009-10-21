@@ -174,20 +174,12 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
                               "#{file_name}.rb")
 
         # Cucumber features
-        m.template  'features/step_definitions/ra_navigation_steps.rb',
-         File.join('features/step_definitions/ra_navigation_steps.rb')
-        m.template  'features/step_definitions/ra_response_steps.rb',
-         File.join('features/step_definitions/ra_response_steps.rb')
-        m.template  'features/step_definitions/ra_resource_steps.rb',
-         File.join('features/step_definitions/ra_resource_steps.rb')
         m.template  'features/step_definitions/user_steps.rb',
          File.join('features/step_definitions/', "#{file_name}_steps.rb")
         m.template  'features/accounts.feature',
          File.join('features', 'accounts.feature')
         m.template  'features/sessions.feature',
          File.join('features', 'sessions.feature')
-        m.template  'features/step_definitions/rest_auth_features_helper.rb',
-         File.join('features', 'step_definitions', 'rest_auth_features_helper.rb')
         m.template  'features/step_definitions/ra_env.rb',
          File.join('features', 'step_definitions', 'ra_env.rb')
 
