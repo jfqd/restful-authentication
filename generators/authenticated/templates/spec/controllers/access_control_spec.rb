@@ -54,7 +54,7 @@ describe AccessControlTestController do
         describe "requesting #{format.blank? ? 'html' : format}; #{logged_in_status.to_s.humanize} and #{login_reqd_status.to_s.humanize}" do
           before do
             logout_keeping_session!
-            @<%= file_name %> = format.blank? ? log_in : authorize
+            @<%= file_name %> = format.blank? ? log_in : authorize if logged_in_status == :i_am_logged_in
             get login_reqd_status.to_s, :format => format
           end
 
