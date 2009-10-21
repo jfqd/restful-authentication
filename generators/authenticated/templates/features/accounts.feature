@@ -11,7 +11,7 @@ Feature: Sign up
     
     Scenario:  Create fails when creating an existing <%= file_name %>
       Given I am not logged in
-      And someone with login "testing" already exists
+      And someone with the login "testing" already exists
       When I am on the sign up page
       And I fill in "Login" with "testing"
       And I fill in "Email" with "test@testing.com"
