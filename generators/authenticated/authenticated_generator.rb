@@ -67,7 +67,7 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
     @model_controller_routing_path    = @model_controller_file_path
     @model_controller_controller_name = @model_controller_plural_name
 
-    load_or_initialize_site_keys()
+    load_or_initialize_site_keys
 
     if options[:dump_generator_attribute_names]
       dump_generator_attribute_names
@@ -141,6 +141,9 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
                   File.join('lib', 'authenticated_test_helper.rb')
 
       m.template 'site_keys.rb', site_keys_file
+      m.template 'machinist.rb',
+                 File.join("config", "initializers", "machinist.rb")
+      
 
       if @rspec
         # RSpec Specs
@@ -263,20 +266,17 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
         puts "- Install the acts_as_state_machine plugin:"
         puts "    svn export http://elitists.textdriven.com/svn/plugins/acts_as_state_machine/trunk vendor/plugins/acts_as_state_machine"
       end
-      puts
+      puts 
       puts ("-" * 70)
+      puts 
+      puts "- Add the following to your features/support/paths.rb: "
       puts
-      puts
-      puts "- Add the following to config/environments/test.rb: "
-      puts %(    require 'machinist/active_record')
-      puts %(    require 'sham')
-      puts %(    require 'faker')
-      puts
-      puts %(    config.after_initialize do)
-      puts %(      Dir["#{RAILS_ROOT}/spec/blueprints/*.rb"].each { |f| require f })
-      puts %(    end)
-      puts
-      puts ("-" * 70)
+      puts %(   when /the sign up page/i)
+      puts %(     signup_path)
+      puts %(   when /the login page/i)
+      puts %(     login_path)
+      puts %(   when /the logout page/i)
+      puts %(     logout_path)
       puts
       puts "- Add routes to these resources. In config/routes.rb, insert routes like:"
       puts %(    map.signup '/signup', :controller => '#{model_controller_file_name}', :action => 'new')
