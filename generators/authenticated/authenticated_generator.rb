@@ -183,7 +183,7 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
          File.join('features', 'sessions.feature')
         m.template  'features/step_definitions/ra_env.rb',
          File.join('features', 'step_definitions', 'ra_env.rb')
-        m.template 'machinist_rspec.rb',
+        m.template 'machinist_spec.rb',
          File.join("config", "initializers", "machinist.rb")
 
       else
