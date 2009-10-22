@@ -109,6 +109,7 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
         m.directory File.join('test/functional', controller_class_path)
         m.directory File.join('test/functional', model_controller_class_path)
         m.directory File.join('test/unit', class_path)
+        m.directory File.join('test/blueprints', class_path)        
       end
 
       m.template 'model.rb',
@@ -140,10 +141,7 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
       m.template 'authenticated_test_helper.rb',
                   File.join('lib', 'authenticated_test_helper.rb')
 
-      m.template 'site_keys.rb', site_keys_file
-      m.template 'machinist.rb',
-                 File.join("config", "initializers", "machinist.rb")
-      
+      m.template 'site_keys.rb', site_keys_file      
 
       if @rspec
         # RSpec Specs
@@ -185,6 +183,8 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
          File.join('features', 'sessions.feature')
         m.template  'features/step_definitions/ra_env.rb',
          File.join('features', 'step_definitions', 'ra_env.rb')
+        m.template 'machinist_rspec.rb',
+         File.join("config", "initializers", "machinist.rb")
 
       else
         m.template 'test/functional_test.rb',
@@ -199,6 +199,12 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
                     File.join('test/unit',
                               class_path,
                               "#{file_name}_test.rb")
+        m.template 'spec/blueprints/user.rb',
+                   File.join('test/blueprints', 
+                             class_path, 
+                             "#{file_name}.rb")
+        m.template 'machinist_test.rb',
+                   File.join("config", "initializers", "machinist.rb")
         if options[:include_activation]
           m.template 'test/mailer_test.rb', File.join('test/unit', class_path, "#{file_name}_mailer_test.rb")
         end
