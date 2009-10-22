@@ -73,12 +73,12 @@ describe <%= controller_class_name %>Controller do
   #
   describe "Logging in by cookie" do
     def set_remember_token token, time
-      @<%= file_name %>[:remember_token]            = token; 
+      @<%= file_name %>[:remember_token]            = token
       @<%= file_name %>[:remember_token_expires_at] = time
       @<%= file_name %>.save!
     end    
     before do 
-      @<%= file_name %> = <%= class_name %>.find(:first); 
+      @<%= file_name %> = <%= class_name %>.make
       set_remember_token 'hello!', 5.minutes.from_now
     end    
     it 'logs in with cookie' do
