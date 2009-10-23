@@ -145,14 +145,14 @@ describe <%= class_name %> do
 
   it 'resets password' do
     <%= file_name %> = <%= class_name %>.make
-    user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    <%= class_name %>.authenticate(user.login, 'new password').should == user
+    <%= file_name %>.update_attributes(:password => 'new password', :password_confirmation => 'new password')
+    <%= class_name %>.authenticate(<%= file_name %>.login, 'new password').should == <%= file_name %>
   end
 
   it 'does not rehash password' do
     <%= file_name %> = <%= class_name %>.make
-    user.update_attributes(:login => 'quentin2')
-    <%= class_name %>.authenticate('quentin2', user.password).should == user
+    <%= file_name %>.update_attributes(:login => 'quentin2')
+    <%= class_name %>.authenticate('quentin2', <%= file_name %>.password).should == <%= file_name %>
   end
 
   #
@@ -161,7 +161,7 @@ describe <%= class_name %> do
 
   it 'authenticates <%= file_name %>' do
     <%= file_name %> = <%= class_name %>.make
-    <%= class_name %>.authenticate(user.login, user.password).should == user
+    <%= class_name %>.authenticate(<%= file_name %>.login, <%= file_name %>.password).should == <%= file_name %>
   end
 
   it "doesn't authenticate <%= file_name %> with bad password" do
@@ -170,11 +170,11 @@ describe <%= class_name %> do
 
  if REST_AUTH_SITE_KEY.blank?
    # old-school passwords
-   it "authenticates a user against a hard-coded old-style password" do
+   it "authenticates a <%= file_name %> against a hard-coded old-style password" do
      <%= class_name %>.authenticate('old_password_holder', 'test').should == <%= table_name %>(:old_password_holder)
    end
  else
-   it "doesn't authenticate a user against a hard-coded old-style password" do
+   it "doesn't authenticate a <%= file_name %> against a hard-coded old-style password" do
      <%= class_name %>.authenticate('old_password_holder', 'test').should be_nil
    end
 
@@ -194,46 +194,46 @@ describe <%= class_name %> do
 
   it 'sets remember token' do
     <%= file_name %> = <%= class_name %>.make
-    user.remember_me
-    user.remember_token.should_not be_nil
-    user.remember_token_expires_at.should_not be_nil
+    <%= file_name %>.remember_me
+    <%= file_name %>.remember_token.should_not be_nil
+    <%= file_name %>.remember_token_expires_at.should_not be_nil
   end
 
   it 'unsets remember token' do
     <%= file_name %> = <%= class_name %>.make    
-    user.remember_me
-    user.remember_token.should_not be_nil
-    user.forget_me
-    user.remember_token.should be_nil
+    <%= file_name %>.remember_me
+    <%= file_name %>.remember_token.should_not be_nil
+    <%= file_name %>.forget_me
+    <%= file_name %>.remember_token.should be_nil
   end
 
   it 'remembers me for one week' do
     <%= file_name %> = <%= class_name %>.make
     before = 1.week.from_now.utc
-    user.remember_me_for 1.week
+    <%= file_name %>.remember_me_for 1.week
     after = 1.week.from_now.utc
-    user.remember_token.should_not be_nil
-    user.remember_token_expires_at.should_not be_nil
-    user.remember_token_expires_at.between?(before, after).should be_true
+    <%= file_name %>.remember_token.should_not be_nil
+    <%= file_name %>.remember_token_expires_at.should_not be_nil
+    <%= file_name %>.remember_token_expires_at.between?(before, after).should be_true
   end
 
   it 'remembers me until one week' do
     <%= file_name %> = <%= class_name %>.make
     time = 1.week.from_now.utc
-    user.remember_me_until time
-    user.remember_token.should_not be_nil
-    user.remember_token_expires_at.should_not be_nil
-    user.remember_token_expires_at.should == time
+    <%= file_name %>.remember_me_until time
+    <%= file_name %>.remember_token.should_not be_nil
+    <%= file_name %>.remember_token_expires_at.should_not be_nil
+    <%= file_name %>.remember_token_expires_at.should == time
   end
 
   it 'remembers me default two weeks' do
     <%= file_name %> = <%= class_name %>.make
     before = 2.weeks.from_now.utc
-    user.remember_me
+    <%= file_name %>.remember_me
     after = 2.weeks.from_now.utc
-    user.remember_token.should_not be_nil
-    user.remember_token_expires_at.should_not be_nil
-    user.remember_token_expires_at.between?(before, after).should be_true
+    <%= file_name %>.remember_token.should_not be_nil
+    <%= file_name %>.remember_token_expires_at.should_not be_nil
+    <%= file_name %>.remember_token_expires_at.between?(before, after).should be_true
   end
 <% if options[:stateful] %>
   it 'registers passive <%= file_name %>' do
@@ -246,22 +246,22 @@ describe <%= class_name %> do
 
   it 'suspends <%= file_name %>' do
     <%= file_name %> = <%= class_name %>.make
-    user.suspend!
-    user.should be_suspended
+    <%= file_name %>.suspend!
+    <%= file_name %>.should be_suspended
   end
 
   it 'does not authenticate suspended <%= file_name %>' do
     <%= file_name %> = <%= class_name %>.make
-    user.suspend!
-    <%= class_name %>.authenticate('quentin', 'monkey').should_not == user
+    <%= file_name %>.suspend!
+    <%= class_name %>.authenticate('quentin', 'monkey').should_not == <%= file_name %>
   end
 
   it 'deletes <%= file_name %>' do
     <%= file_name %> = <%= class_name %>.make
-    user.deleted_at.should be_nil
-    user.delete!
-    user.deleted_at.should_not be_nil
-    user.should be_deleted
+    <%= file_name %>.deleted_at.should be_nil
+    <%= file_name %>.delete!
+    <%= file_name %>.deleted_at.should_not be_nil
+    <%= file_name %>.should be_deleted
   end
 
   describe "being unsuspended" do
