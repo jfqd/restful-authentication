@@ -60,7 +60,7 @@ Feature:  Logging in
     Then I should see "Couldn't log you in as 'testing'"
     And I should not be logged in
 
-  Scenario:  Logged out user can log out
+  Scenario:  Logged out <%= file_name %> can log out
     Given I am not logged in
     And I am on the home page
     When I go to the logout page
@@ -68,7 +68,7 @@ Feature:  Logging in
     And I should be on the home page
     And I should not be logged in
     
-  Scenario:  Logged in user can log out
+  Scenario:  Logged in <%= file_name %> can log out
     Given I am logged in
     And I am on the home page
     When I follow "Log out"

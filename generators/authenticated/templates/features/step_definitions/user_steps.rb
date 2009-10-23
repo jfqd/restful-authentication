@@ -3,10 +3,10 @@ Given /^I am not logged in$/ do
 end
 
 Given /^I am logged in$/ do
-  user = User.make
+  <%= file_name %> = <%= class_name %>.make
   visit '/login'
-  fill_in 'login', :with => user.login
-  fill_in 'password', :with => user.password
+  fill_in 'login', :with => <%= file_name %>.login
+  fill_in 'password', :with => <%= file_name %>.password
   click_button 'Log in'
 end
 
