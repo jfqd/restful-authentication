@@ -275,14 +275,9 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
       puts 
       puts ("-" * 70)
       puts 
-      puts "- Add the following to your features/support/paths.rb: "
+      puts "- Add the following to your config/environments/cucumber.rb: "
       puts
-      puts %(   when /the sign up page/i)
-      puts %(     signup_path)
-      puts %(   when /the login page/i)
-      puts %(     login_path)
-      puts %(   when /the logout page/i)
-      puts %(     logout_path)
+      puts %(    config.gem 'pickle')
       puts
       puts "- Add routes to these resources. In config/routes.rb, insert routes like:"
       puts %(    map.signup '/signup', :controller => '#{model_controller_file_name}', :action => 'new')
