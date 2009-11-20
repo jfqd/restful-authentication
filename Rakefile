@@ -22,7 +22,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-gemspec = eval(File.read("#{File.dirname(__FILE__)}/restful-authentication.gemspec"))
+gemspec = eval(File.read("#{File.dirname(__FILE__)}/restful_authentication.gemspec"))
 PKG_NAME = gemspec.name
 PKG_VERSION = gemspec.version
 
