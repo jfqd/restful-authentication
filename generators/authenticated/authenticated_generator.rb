@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/lib/insert_routes.rb")
 require 'digest/sha1'
+
 class AuthenticatedGenerator < Rails::Generator::NamedBase
   default_options :skip_migration => false,
                   :skip_routes    => false,
@@ -96,6 +97,7 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
       m.directory File.join('app/helpers', model_controller_class_path)
       m.directory File.join('app/views', model_controller_class_path, model_controller_file_name)
       m.directory File.join('config/initializers')
+      m.file 'tasks/auth.rake', 'lib/tasks/auth.rake'
 
       if @rspec
         m.directory File.join('spec/controllers', controller_class_path)
@@ -374,6 +376,7 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
       $rest_auth_keys_are_new                    = true
     end
   end
+
   def site_keys_file
     File.join("config", "initializers", "site_keys.rb")
   end
