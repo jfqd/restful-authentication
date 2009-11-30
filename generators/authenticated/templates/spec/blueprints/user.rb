@@ -3,6 +3,10 @@
   password 'testing'
   password_confirmation { password }
   email { Faker::Internet.email }
+  <% if options[:include_activation] %>
+    activation_code
+    activated_at { 5.days.ago }    
+  <% end %>
   <% if options[:stateful] %>
     state { 'active' }
   <% end %>
