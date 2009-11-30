@@ -9,6 +9,7 @@ module Authorization
       recipient.class_eval do
         include StatefulRolesInstanceMethods
         include AASM
+        
         aasm_column :state
         aasm_initial_state :initial => :pending
         aasm_state :passive
