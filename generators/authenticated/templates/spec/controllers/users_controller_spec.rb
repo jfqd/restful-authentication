@@ -60,12 +60,13 @@ describe <%= model_controller_class_name %>Controller do
   
   <% if options[:include_activation] %>
   it 'activates user' do
+    create_<%= file_name %>(:login => 'aaron', :password => 'monkey', :password_confirmation => 'monkey')
     <%= class_name %>.authenticate('aaron', 'monkey').should be_nil
-    get :activate, :activation_code => <%= table_name %>(:aaron).activation_code
+    get :activate, :activation_code => assigns[:<%= file_name %>].activation_code
     response.should redirect_to('/login')
     flash[:notice].should_not be_nil
     flash[:error ].should     be_nil
-    <%= class_name %>.authenticate('aaron', 'monkey').should == <%= table_name %>(:aaron)
+    <%= class_name %>.authenticate('aaron', 'monkey').should == assigns[:<%= file_name %>]
   end
   
   it 'does not activate user without key' do
