@@ -60,7 +60,7 @@ Feature: Sign up
       And I fill in "Confirm Password" with "password"
       And I press "Sign up"
       Then I should be on the home page
-      <% if options[:stateful] %>
+      <% if options[:include_activation] %>
       And I should not be logged in
       <% else %>
       And I should be logged in
