@@ -7,12 +7,12 @@ Feature: Sign up
     Given I am not logged in
     When I am on the home page
     And I follow "Sign up"
-    Then I should be on the sign up page
+    Then I should be on the signup page
     
     Scenario:  Create fails when creating an existing <%= file_name %>
       Given I am not logged in
       And someone with the login "testing" already exists
-      When I am on the sign up page
+      When I am on the signup page
       And I fill in "Login" with "testing"
       And I fill in "Email" with "test@testing.com"
       And I fill in "Password" with "password"
@@ -23,7 +23,7 @@ Feature: Sign up
       
     Scenario:  Create fails when given an invalid email
       Given I am not logged in
-      When I am on the sign up page
+      When I am on the signup page
       And I fill in "Login" with "testing"
       And I fill in "Email" with "invalid.email"
       And I fill in "Password" with "password"
@@ -34,7 +34,7 @@ Feature: Sign up
 
     Scenario:  Create fails when no password is given
       Given I am not logged in
-      When I am on the sign up page
+      When I am on the signup page
       And I fill in "Login" with "testing"
       And I fill in "Email" with "test@testing.com"
       And I press "Sign up"
@@ -43,7 +43,7 @@ Feature: Sign up
 
     Scenario:  Create fails when no password confirmation is given
       Given I am not logged in
-      When I am on the sign up page
+      When I am on the signup page
       And I fill in "Login" with "testing"
       And I fill in "Email" with "test@testing.com"
       And I fill in "Password" with "password"      
@@ -53,11 +53,15 @@ Feature: Sign up
 
     Scenario:  Create successful when given valid parameters
       Given I am not logged in
-      When I am on the sign up page
+      When I am on the signup page
       And I fill in "Login" with "testing"
       And I fill in "Email" with "test@testing.com"
       And I fill in "Password" with "password"
       And I fill in "Confirm Password" with "password"
       And I press "Sign up"
       Then I should be on the home page
+      <% if options[:stateful] %>
+      And I should not be logged in
+      <% else %>
       And I should be logged in
+      <% end %>
