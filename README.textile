@@ -8,6 +8,14 @@ authentication:
 * Account approval / disabling by admin
 * Rudimentary hooks for authorization and access control.
 
+This fork significantly updates the plugin to provide:
+* 100% passing specs
+* 100% passing cucumber features (with selenium support)
+* Machinist support
+* Pickle support
+* Available as a gem
+* Uses aasm gem
+
 Several features were updated in May, 2008.
 * "Stable newer version":http://github.com/technoweenie/restful-authentication/tree/master
 * "'Classic' (backward-compatible) version":http://github.com/technoweenie/restful-authentication/tree/classic
