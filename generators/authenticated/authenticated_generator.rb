@@ -244,11 +244,20 @@ class AuthenticatedGenerator < Rails::Generator::NamedBase
       unless options[:skip_routes]
         # Note that this fails for nested classes -- you're on your own with setting up the routes.
         m.route_resource  controller_singular_name
-        m.route_resources model_controller_plural_name
+        if options[:stateful]
+          m.route_resources model_controller_plural_name, :member => { :suspend   => :put,
+                                                                       :unsuspend => :put,
+                                                                       :purge     => :delete }
+        else        
+          m.route_resources model_controller_plural_name
+        end
         m.route_name('signup',   '/signup',   {:controller => model_controller_plural_name, :action => 'new'})
         m.route_name('register', '/register', {:controller => model_controller_plural_name, :action => 'create'})
         m.route_name('login',    '/login',    {:controller => controller_controller_name, :action => 'new'})
         m.route_name('logout',   '/logout',   {:controller => controller_controller_name, :action => 'destroy'})
+        if options[:include_activation]
+          m.route_name('activate', '/activate/:activation_code', { :controller => model_controller_plural_name, :action => 'activate', :activation_code => nil })
+        end
       end
     end
 

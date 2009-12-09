@@ -29,13 +29,22 @@ class <%= model_controller_class_name %>Controller < ApplicationController
       # reset session
       self.current_<%= file_name %> = @<%= file_name %> # !! now logged in
       <% end -%>redirect_back_or_default('/')
+<% if options[:include_activation] -%>
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+<% else -%>
+      flash[:notice] = "Thanks for signing up!"
+<% end -%>
     else
-      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+<% if options[:include_activation] -%>
+      flash[:error] = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+<% else -%>
+      flash[:error] = "We couldn't create your account, sorry."
+<% end -%>
       render :action => 'new'
     end
   end
-<% if options[:include_activation] %>
+  
+<% if options[:include_activation] -%>
   def activate
     logout_keeping_session!
     <%= file_name %> = <%= class_name %>.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
@@ -52,7 +61,9 @@ class <%= model_controller_class_name %>Controller < ApplicationController
       redirect_back_or_default('/')
     end
   end
-<% end %><% if options[:stateful] %>
+<% end -%>
+
+<% if options[:stateful] -%>
   def suspend
     @<%= file_name %>.suspend! 
     redirect_to <%= model_controller_routing_name %>_path

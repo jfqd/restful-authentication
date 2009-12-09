@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jeremydurham-restful_authentication}
-  s.version = "1.1.5"
+  s.version = "1.1.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RailsJedi", "Rick Olson"]
-  s.date = %q{2009-11-30}
+  s.date = Date.today 
   s.description = %q{This widely-used plugin provides a foundation for securely managing user.}
   s.email = %q{railsjedi@gmail.com}
   s.extra_rdoc_files = ["README.textile"]
