@@ -12,12 +12,12 @@ Rails::Generator::Commands::Create.class_eval do
   end
   
   def route_resources(*resources)
-    options = resources.last.is_a?(Hash) ? resources.pop : nil    
+    resource_options = resources.last.is_a?(Hash) ? resources.pop : nil    
     resource_list = resources.map { |r| r.to_sym.inspect }.join(', ')
     sentinel = 'ActionController::Routing::Routes.draw do |map|'
 
     routing_options = "map.resources #{resource_list}"
-    routing_options << ", #{options.inspect}" if options
+    routing_options << ", #{resource_options.inspect}" if resource_options
     logger.route "map.resources #{routing_options}"
     unless options[:pretend]
       gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
