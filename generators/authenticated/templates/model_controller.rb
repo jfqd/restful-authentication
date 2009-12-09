@@ -22,7 +22,7 @@ class <%= model_controller_class_name %>Controller < ApplicationController
     success = @<%= file_name %> && @<%= file_name %>.save
 <% end -%>
     if success && @<%= file_name %>.errors.empty?
-      <% if !options[:include_activation] -%>
+<% if !options[:include_activation] -%>
       # Protects against session fixation attacks, causes request forgery
       # protection if visitor resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
