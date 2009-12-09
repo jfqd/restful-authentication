@@ -16,12 +16,11 @@ Rails::Generator::Commands::Create.class_eval do
     resource_list = resources.map { |r| r.to_sym.inspect }.join(', ')
     sentinel = 'ActionController::Routing::Routes.draw do |map|'
 
-    routing_options = "map.resources #{resource_list}"
-    routing_options << ", #{resource_options.inspect}" if resource_options
-    logger.route "map.resources #{routing_options}"
+    resource_list << ", #{resource_options.inspect}" if resource_options
+    logger.route "map.resources #{resource_list}"
     unless options[:pretend]
       gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-        "#{match}\n  map.resources #{routing_options}\n"
+        "#{match}\n  map.resources #{resource_list}\n"
       end
     end
   end
