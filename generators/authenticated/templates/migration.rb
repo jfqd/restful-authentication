@@ -1,7 +1,7 @@
 class <%= migration_name %> < ActiveRecord::Migration
   def self.up
     create_table :<%= table_name %>, :force => true do |t|
-      t.string :login, :crypted_password, :salt, :remember_token, :limit => 40
+      t.string :login, :crypted_password, :salt, :remember_token, :limit => 255
       t.datetime :remember_token_expires_at
       t.string :name,                      :limit => 100, :default => '', :null => true
       t.string :email,                     :limit => 100
